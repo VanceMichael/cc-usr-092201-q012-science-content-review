@@ -9,44 +9,396 @@
     "record_types",
     "workflow_states",
     "facts",
-    "sample"
+    "experts",
+    "topics",
+    "claims",
+    "evidence",
+    "expressions",
+    "disputes",
+    "change_events",
+    "carriers",
+    "qr_codes",
+    "feedback"
   ],
   "properties": {
-    "domain": {
-      "const": "science-content-review"
-    },
-    "version": {
-      "type": "integer",
-      "minimum": 1
-    },
-    "sample_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "record_types": {
-      "type": "array",
-      "minItems": 3,
-      "items": {
-        "type": "string"
-      }
-    },
+    "domain": { "const": "science-content-review" },
+    "version": { "type": "integer", "minimum": 2 },
+    "sample_id": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string" },
+    "record_types": { "type": "array", "minItems": 3, "items": { "type": "string" } },
     "workflow_states": {
       "type": "array",
       "minItems": 3,
       "items": {
-        "type": "string"
+        "enum": ["待改写", "审校中", "有分歧", "已批准", "已发布", "需修订", "已被取代", "已撤回"]
       }
     },
-    "facts": {
+    "facts": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+    "roles": { "type": "array", "items": { "type": "string" } },
+    "age_bands": { "type": "array", "items": { "type": "string" } },
+    "formats": { "type": "array", "items": { "type": "string" } },
+
+    "experts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role", "org", "expertise", "topic_ids"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^E-" },
+          "name": { "type": "string" },
+          "role": { "enum": ["科研专家", "教育编审", "内容编辑", "讲解员", "观众", "发布管理员"] },
+          "org": { "type": "string" },
+          "expertise": { "type": "string" },
+          "topic_ids": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "topics": {
       "type": "array",
       "minItems": 2,
       "items": {
-        "type": "string"
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        },
+        "additionalProperties": false
       }
     },
+
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "topic_id", "title", "current_version", "versions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^C-" },
+          "topic_id": { "type": "string" },
+          "title": { "type": "string" },
+          "current_version": { "type": "integer", "minimum": 1 },
+          "versions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["version", "statement", "numeric_findings", "applicability", "status", "change_reason", "issued_at"],
+              "properties": {
+                "version": { "type": "integer", "minimum": 1 },
+                "statement": { "type": "string", "minLength": 1 },
+                "numeric_findings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "label", "value", "unit", "as_of"],
+                    "properties": {
+                      "id": { "type": "string" },
+                      "label": { "type": "string" },
+                      "value": { "type": "number" },
+                      "unit": { "type": "string" },
+                      "uncertainty": { "type": ["string", "null"] },
+                      "as_of": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "applicability": {
+                  "type": "object",
+                  "required": ["scope", "conditions", "not_claimed"],
+                  "properties": {
+                    "scope": { "type": "string" },
+                    "conditions": { "type": "array", "items": { "type": "string" } },
+                    "not_claimed": { "type": "array", "items": { "type": "string" } }
+                  },
+                  "additionalProperties": false
+                },
+                "status": { "enum": ["待改写", "审校中", "有分歧", "已批准", "已发布", "需修订", "已被取代", "已撤回"] },
+                "change_reason": { "enum": ["初稿", "研究更新", "数字修正", "敏感细节删减", "意见冲突"] },
+                "supersedes": { "type": ["integer", "null"] },
+                "issued_at": { "type": "string" },
+                "redaction": {
+                  "type": "object",
+                  "required": ["removed", "reason"],
+                  "properties": {
+                    "removed": { "type": "array", "items": { "type": "string" } },
+                    "reason": { "type": "string" }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim_id", "supports_claim_versions", "kind", "citation", "access", "excerpt", "date"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^SRC-" },
+          "claim_id": { "type": "string" },
+          "supports_claim_versions": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+          "kind": { "type": "string" },
+          "citation": { "type": "string" },
+          "access": { "enum": ["公开", "受限"] },
+          "restriction_note": { "type": "string" },
+          "excerpt": { "type": "string" },
+          "date": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "expressions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "topic_id", "claim_id", "format", "age_band", "language", "title", "current_version", "versions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^EX-" },
+          "topic_id": { "type": "string" },
+          "claim_id": { "type": "string" },
+          "format": { "enum": ["展签", "互动脚本", "翻译", "无障碍文本", "安全提示"] },
+          "age_band": { "type": "string" },
+          "language": { "type": "string" },
+          "title": { "type": "string" },
+          "current_version": { "type": "integer", "minimum": 1 },
+          "versions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["version", "based_on_claim_version", "body", "state", "evidence_refs", "created_at", "confirmed_by"],
+              "properties": {
+                "version": { "type": "integer", "minimum": 1 },
+                "based_on_claim_version": { "type": "integer", "minimum": 1 },
+                "body": { "type": "string", "minLength": 1 },
+                "state": { "enum": ["待改写", "审校中", "有分歧", "已批准", "已发布", "需修订", "已被取代", "已撤回"] },
+                "evidence_refs": { "type": "array", "items": { "type": "string" } },
+                "created_at": { "type": "string" },
+                "confirmed_by": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["expert_id", "claim_version", "expression_version", "at", "note"],
+                    "properties": {
+                      "expert_id": { "type": "string" },
+                      "claim_version": { "type": "integer" },
+                      "expression_version": { "type": "integer" },
+                      "at": { "type": "string" },
+                      "note": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "revision_note": { "type": "string" },
+                "withdrawn": { "type": "boolean" },
+                "withdrawn_at": { "type": "string" },
+                "withdraw_reason": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "disputes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "topic_id", "target", "opened_at", "status", "positions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^D-" },
+          "topic_id": { "type": "string" },
+          "target": {
+            "type": "object",
+            "required": ["type", "expression_id", "version"],
+            "properties": {
+              "type": { "const": "受众版本" },
+              "expression_id": { "type": "string" },
+              "version": { "type": "integer" }
+            },
+            "additionalProperties": false
+          },
+          "opened_at": { "type": "string" },
+          "status": { "enum": ["待处理", "审议中", "已裁定"] },
+          "trigger_feedback_id": { "type": "string" },
+          "positions": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["party", "stance", "content", "at"],
+              "properties": {
+                "party": { "type": "string" },
+                "expert_id": { "type": "string" },
+                "stance": { "type": "string" },
+                "content": { "type": "string" },
+                "at": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "resolution": {
+            "type": "object",
+            "required": ["decision", "decided_by", "at", "produced_expression_version"],
+            "properties": {
+              "decision": { "type": "string" },
+              "decided_by": { "type": "string" },
+              "at": { "type": "string" },
+              "produced_expression_version": {
+                "type": "object",
+                "required": ["expression_id", "version"],
+                "properties": {
+                  "expression_id": { "type": "string" },
+                  "version": { "type": "integer" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "retain_in_record": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "change_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "claim_id", "from_version", "to_version", "at", "by", "summary"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^EV-" },
+          "type": { "enum": ["研究更新", "数字修正", "敏感细节删减", "意见冲突"] },
+          "claim_id": { "type": "string" },
+          "from_version": { "type": "integer" },
+          "to_version": { "type": "integer" },
+          "at": { "type": "string" },
+          "by": { "type": "string" },
+          "summary": { "type": "string" },
+          "evidence_added": { "type": "array", "items": { "type": "string" } },
+          "feedback_links": { "type": "array", "items": { "type": "string" } },
+          "withdrawn_expressions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["expression_id", "version"],
+              "properties": {
+                "expression_id": { "type": "string" },
+                "version": { "type": "integer" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "redaction_check": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "carriers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "title", "location", "binding", "immutable_after_print", "status", "qr_code"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^CP-" },
+          "kind": { "enum": ["印刷展签", "互动屏", "讲解平板"] },
+          "title": { "type": "string" },
+          "location": { "type": "string" },
+          "binding": { "enum": ["固定版本", "随批准更新"] },
+          "immutable_after_print": { "type": "boolean" },
+          "printed_batch": { "type": "string" },
+          "printed_at": { "type": "string" },
+          "status": { "type": "string" },
+          "qr_code": { "type": "string" },
+          "pins": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["expression_id", "version"],
+              "properties": {
+                "expression_id": { "type": "string" },
+                "version": { "type": "integer" },
+                "content_hash": { "type": ["string", "null"] }
+              },
+              "additionalProperties": false
+            }
+          },
+          "live_bindings": { "type": "array", "items": { "type": "string" } },
+          "replacement_policy": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "qr_codes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "carrier_id", "purpose"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^QR-" },
+          "carrier_id": { "type": "string" },
+          "purpose": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "via_qr", "about", "type", "content", "received_at", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^FB-" },
+          "source": { "enum": ["观众", "讲解员", "科研专家", "教育编审"] },
+          "via_qr": { "type": "string" },
+          "about": {
+            "type": "object",
+            "required": ["expression_id", "version"],
+            "properties": {
+              "expression_id": { "type": "string" },
+              "version": { "type": "integer" }
+            },
+            "additionalProperties": false
+          },
+          "type": { "enum": ["疑问", "误解", "安全相关", "事实更正"] },
+          "content": { "type": "string" },
+          "received_at": { "type": "string" },
+          "status": { "enum": ["待修订", "待处理", "处理中", "已纳入修订", "已回复", "已关闭"] },
+          "routed_to_dispute": { "type": "string" },
+          "linked_event": { "type": "string" },
+          "resolution_ref": {
+            "type": "object",
+            "required": ["expression_id", "version"],
+            "properties": {
+              "expression_id": { "type": "string" },
+              "version": { "type": "integer" }
+            },
+            "additionalProperties": false
+          },
+          "response": { "type": "string" },
+          "answered_at": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+
     "sample": {
       "type": "object",
-      "minProperties": 3
+      "minProperties": 3,
+      "description": "v1 兼容字段；v2 起以 topics/claims/expressions 等完整记录为准。"
     }
   },
   "additionalProperties": false

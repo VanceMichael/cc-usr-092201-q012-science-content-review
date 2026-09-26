@@ -1,14 +1,18 @@
 {
   "domain": "science-content-review",
-  "version": 1,
+  "version": 2,
   "sample_id": "092201-012",
+  "generated_at": "2026-09-20",
   "record_types": [
     "科学主张",
     "来源证据",
     "受众版本",
     "审校意见",
     "发布载体",
-    "观众反馈"
+    "观众反馈",
+    "变更事件",
+    "二维码",
+    "专家"
   ],
   "workflow_states": [
     "待改写",
@@ -16,17 +20,655 @@
     "有分歧",
     "已批准",
     "已发布",
-    "需修订"
+    "需修订",
+    "已被取代",
+    "已撤回"
   ],
   "facts": [
     "活动把前沿科研成果转化为可看、可触和可玩的内容",
     "展品覆盖空天、材料、制造和生命健康等领域",
-    "科普表达需要连接科研准确性与公众理解"
+    "科普表达需要连接科研准确性与公众理解",
+    "每条受众表达必须标注所依据的科学主张版本与来源证据",
+    "通俗改写发布前须经对应领域科研专家按版本确认",
+    "研究更新、数字修正、敏感细节删减和意见冲突均形成变更事件并保留分歧双方原话",
+    "印刷载体固定内容版本，新版本不悄悄替换旧批次，讲解员扫码取得现场当前版本",
+    "观众疑问与误解回流到具体表达版本，内容团队只复审受影响的表达"
   ],
-  "sample": {
-    "topic": "微重力液体运输",
-    "audience": "10至14岁",
-    "carrier": "互动屏",
-    "reviewers": 3
-  }
+  "roles": [
+    "科研专家",
+    "教育编审",
+    "内容编辑",
+    "讲解员",
+    "观众",
+    "发布管理员"
+  ],
+  "age_bands": ["7-10岁", "11-14岁", "全龄"],
+  "formats": ["展签", "互动脚本", "翻译", "无障碍文本", "安全提示"],
+  "experts": [
+    {
+      "id": "E-01",
+      "name": "郑岚（示例化名）",
+      "role": "科研专家",
+      "org": "近代物理研究中心（示例机构）",
+      "expertise": "强流重离子加速器物理与辐射防护",
+      "topic_ids": ["T-HIAF"]
+    },
+    {
+      "id": "E-02",
+      "name": "林渡（示例化名）",
+      "role": "科研专家",
+      "org": "空间流体科学实验室（示例机构）",
+      "expertise": "微重力流体管理与毛细流动",
+      "topic_ids": ["T-MG"]
+    },
+    {
+      "id": "E-03",
+      "name": "苏晓（示例化名）",
+      "role": "教育编审",
+      "org": "科普教育团队（示例）",
+      "expertise": "7-14岁认知适配与分龄改写",
+      "topic_ids": ["T-HIAF", "T-MG"]
+    }
+  ],
+  "topics": [
+    {"id": "T-HIAF", "name": "强流重离子加速器"},
+    {"id": "T-MG", "name": "微重力液体运输"}
+  ],
+  "claims": [
+    {
+      "id": "C-HIAF-01",
+      "topic_id": "T-HIAF",
+      "title": "重离子能被加速到多快、用来做什么",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "statement": "强流重离子加速器用电场把带电的重离子束加速，设计束流最高速度可接近光速的80%，主要服务于原子核物理等基础研究。",
+          "numeric_findings": [
+            {"id": "NF-HIAF-01-V1", "label": "设计束流最高速度", "value": 0.8, "unit": "c（倍光速）", "uncertainty": null, "as_of": "2024-11-01"}
+          ],
+          "applicability": {
+            "scope": "设计指标，针对装置满能量运行的重离子束",
+            "conditions": ["满能量供束工况"],
+            "not_claimed": ["不表示所有离子、所有工况都能达到该速度", "不暗示直接医疗或能源应用"]
+          },
+          "status": "已被取代",
+          "change_reason": "初稿",
+          "issued_at": "2024-12-01"
+        },
+        {
+          "version": 2,
+          "statement": "强流重离子加速器用电场把带电的重离子束加速，最新调试束流最高速度约为光速的83%（±2个百分点），主要服务于原子核物理等基础研究。",
+          "numeric_findings": [
+            {"id": "NF-HIAF-01-V2", "label": "调试束流最高速度", "value": 0.83, "unit": "c（倍光速）", "uncertainty": "±0.02", "as_of": "2026-03-15"}
+          ],
+          "applicability": {
+            "scope": "2026年春季调试测得的最高速度，针对重离子束",
+            "conditions": ["2026年春季调试工况", "重离子束"],
+            "not_claimed": ["不表示所有离子、所有工况都能达到该速度", "不暗示直接医疗或能源应用"]
+          },
+          "status": "已发布",
+          "change_reason": "数字修正",
+          "supersedes": 1,
+          "issued_at": "2026-04-01"
+        }
+      ]
+    },
+    {
+      "id": "C-HIAF-02",
+      "topic_id": "T-HIAF",
+      "title": "加速器对公众区域是否安全",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "statement": "加速器运行时，屏蔽结构外的公众区域年附加辐射剂量远低于公众限值，参观活动在该区域内进行。",
+          "numeric_findings": [
+            {"id": "NF-HIAF-02-V1", "label": "公众区域年附加剂量（测算）", "value": 0.01, "unit": "mSv/年", "uncertainty": null, "as_of": "2025-06-01"}
+          ],
+          "applicability": {
+            "scope": "正常运行工况下的屏蔽结构外公众区域",
+            "conditions": ["正常运行", "屏蔽与联锁投入"],
+            "not_claimed": ["不适用于检修或事故工况", "不公开屏蔽结构具体位置"]
+          },
+          "status": "已被取代",
+          "change_reason": "初稿",
+          "issued_at": "2025-07-01"
+        },
+        {
+          "version": 2,
+          "statement": "加速器运行时，屏蔽结构外的公众区域年附加辐射剂量远低于公众限值，参观活动只在该区域内进行。",
+          "numeric_findings": [
+            {"id": "NF-HIAF-02-V2", "label": "公众区域年附加剂量（测算）", "value": 0.01, "unit": "mSv/年", "uncertainty": null, "as_of": "2025-06-01"}
+          ],
+          "applicability": {
+            "scope": "正常运行工况下的屏蔽结构外公众区域",
+            "conditions": ["正常运行", "屏蔽与联锁投入"],
+            "not_claimed": ["不适用于检修或事故工况"]
+          },
+          "status": "已发布",
+          "change_reason": "敏感细节删减",
+          "redaction": {
+            "removed": ["屏蔽结构的具体布局", "束流管道的位置与走向描述"],
+            "reason": "设施细节属敏感信息，公众表达一律不得引用"
+          },
+          "supersedes": 1,
+          "issued_at": "2026-05-08"
+        }
+      ]
+    },
+    {
+      "id": "C-MG-01",
+      "topic_id": "T-MG",
+      "title": "微重力下液体怎样被运输",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "statement": "微重力环境中液体不再因重力自行流动，可借助毛细作用沿通道输送；示范装置中液体沿指定通道输送约需3.2秒。",
+          "numeric_findings": [
+            {"id": "NF-MG-01-V1", "label": "指定通道输送时间", "value": 3.2, "unit": "秒", "uncertainty": "±0.3", "as_of": "2025-09-01"}
+          ],
+          "applicability": {
+            "scope": "地面微重力示范装置（落塔短时微重力）的测量结果",
+            "conditions": ["通道内径2毫米", "乙醇模拟工质"],
+            "not_claimed": ["不等同于在轨长期微重力工况"]
+          },
+          "status": "已被取代",
+          "change_reason": "初稿",
+          "issued_at": "2025-10-01"
+        },
+        {
+          "version": 2,
+          "statement": "微重力环境中液体不再因重力自行流动，靠毛细作用等表面张力效应沿通道输送；在经湿壁预处理的通道中，新一批实验测得输送时间约2.7秒。",
+          "numeric_findings": [
+            {"id": "NF-MG-01-V2", "label": "指定通道输送时间（新批次）", "value": 2.7, "unit": "秒", "uncertainty": "±0.2", "as_of": "2026-03-20"}
+          ],
+          "applicability": {
+            "scope": "地面微重力示范装置（落塔短时微重力）的新批次测量结果",
+            "conditions": ["通道内径2毫米", "乙醇模拟工质", "通道经湿壁预处理"],
+            "not_claimed": ["不等同于在轨长期微重力工况", "不表示任意管径下都是该数值"]
+          },
+          "status": "已发布",
+          "change_reason": "研究更新",
+          "supersedes": 1,
+          "issued_at": "2026-04-02"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "SRC-HIAF-01-PUB",
+      "claim_id": "C-HIAF-01",
+      "supports_claim_versions": [1, 2],
+      "kind": "公开设计报告",
+      "citation": "强流重离子加速装置科普白皮书（示例文献，2025）",
+      "access": "公开",
+      "excerpt": "装置以电场加速重离子束，设计与调试速度指标见公开报告。",
+      "date": "2025-03-01"
+    },
+    {
+      "id": "SRC-HIAF-02-PUB",
+      "claim_id": "C-HIAF-02",
+      "supports_claim_versions": [1, 2],
+      "kind": "公开辐射安全年报",
+      "citation": "装置周边辐射环境年度报告（公开版，示例）",
+      "access": "公开",
+      "excerpt": "屏蔽结构外公众区域年附加剂量远低于公众限值。",
+      "date": "2026-01-20"
+    },
+    {
+      "id": "SRC-HIAF-02-RES",
+      "claim_id": "C-HIAF-02",
+      "supports_claim_versions": [1, 2],
+      "kind": "内部屏蔽设计报告",
+      "citation": "屏蔽与束流管道工程设计说明（内部）",
+      "access": "受限",
+      "restriction_note": "含屏蔽结构布局与束流管道位置，仅供内部核算，禁止进入任何公众表达",
+      "excerpt": "（受限内容，不在公开资料中展开）",
+      "date": "2025-05-01"
+    },
+    {
+      "id": "SRC-MG-01-V1",
+      "claim_id": "C-MG-01",
+      "supports_claim_versions": [1],
+      "kind": "实验数据",
+      "citation": "落塔毛细输送实验第7批次数据（示例）",
+      "access": "公开",
+      "excerpt": "干壁通道平均输送时间3.2秒（±0.3）。",
+      "date": "2025-09-15"
+    },
+    {
+      "id": "SRC-MG-01-V2",
+      "claim_id": "C-MG-01",
+      "supports_claim_versions": [2],
+      "kind": "同行评议论文",
+      "citation": "湿壁预处理对微重力毛细输送的影响（示例期刊，2026）",
+      "access": "公开",
+      "excerpt": "湿壁预处理后平均输送时间2.7秒（±0.2），并给出适用管径范围。",
+      "date": "2026-03-28"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "EX-HIAF-01-LABEL",
+      "topic_id": "T-HIAF",
+      "claim_id": "C-HIAF-01",
+      "format": "展签",
+      "age_band": "11-14岁",
+      "language": "zh",
+      "title": "把离子“推”到接近光速",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "这台机器用电场把重离子一路推快，最快能到光速的80%左右，帮科学家看清原子核里的秘密。",
+          "state": "已被取代",
+          "evidence_refs": ["SRC-HIAF-01-PUB"],
+          "created_at": "2026-03-05",
+          "confirmed_by": [
+            {"expert_id": "E-01", "claim_version": 1, "expression_version": 1, "at": "2026-03-10", "note": "表述与设计指标一致"}
+          ]
+        },
+        {
+          "version": 2,
+          "based_on_claim_version": 2,
+          "body": "这台机器用电场把重离子一路推快，2026年春的最新调试中最快约为光速的83%（大约25万千米每秒），帮科学家研究原子核。",
+          "state": "已发布",
+          "evidence_refs": ["SRC-HIAF-01-PUB"],
+          "created_at": "2026-04-10",
+          "confirmed_by": [
+            {"expert_id": "E-01", "claim_version": 2, "expression_version": 2, "at": "2026-04-12", "note": "数字与调试结果一致，换算速度正确"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EX-HIAF-01-EN",
+      "topic_id": "T-HIAF",
+      "claim_id": "C-HIAF-01",
+      "format": "翻译",
+      "age_band": "全龄",
+      "language": "en",
+      "title": "Pushing ions close to light speed",
+      "current_version": 1,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "This machine uses electric fields to push heavy ions to about 80% of the speed of light for nuclear physics research.",
+          "state": "需修订",
+          "evidence_refs": ["SRC-HIAF-01-PUB"],
+          "created_at": "2026-03-18",
+          "confirmed_by": [
+            {"expert_id": "E-01", "claim_version": 1, "expression_version": 1, "at": "2026-03-19", "note": "英文表述与中文v1一致"}
+          ],
+          "revision_note": "数字修正事件EV-02后待更新为83%，仅数字与对应从句受影响"
+        }
+      ]
+    },
+    {
+      "id": "EX-HIAF-02-SAFETY",
+      "topic_id": "T-HIAF",
+      "claim_id": "C-HIAF-02",
+      "format": "安全提示",
+      "age_band": "全龄",
+      "language": "zh",
+      "title": "参观安全提示",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "观众区域在屏蔽结构之外，年附加辐射远低于国家标准限值；请勿越过黄线进入设备区。（旧版含内部布局描述，已撤回）",
+          "state": "已撤回",
+          "evidence_refs": ["SRC-HIAF-02-PUB", "SRC-HIAF-02-RES"],
+          "created_at": "2026-02-01",
+          "withdrawn": true,
+          "withdrawn_at": "2026-05-06",
+          "withdraw_reason": "误引受限内部报告，且涉及敏感设施细节，按敏感删减要求撤回",
+          "confirmed_by": [
+            {"expert_id": "E-01", "claim_version": 1, "expression_version": 1, "at": "2026-02-05", "note": "剂量表述准确；后因引用来源问题整体撤回"}
+          ]
+        },
+        {
+          "version": 2,
+          "based_on_claim_version": 2,
+          "body": "观众可到达的区域都在屏蔽结构之外，正常运行时年附加辐射远低于国家公众限值。请沿黄线外侧参观，不要进入设备区。",
+          "state": "已发布",
+          "evidence_refs": ["SRC-HIAF-02-PUB"],
+          "created_at": "2026-05-09",
+          "confirmed_by": [
+            {"expert_id": "E-01", "claim_version": 2, "expression_version": 2, "at": "2026-05-10", "note": "仅引用公开年报，无设施细节，同意发布"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EX-HIAF-02-SCRIPT-DRAFT",
+      "topic_id": "T-HIAF",
+      "claim_id": "C-HIAF-02",
+      "format": "互动脚本",
+      "age_band": "11-14岁",
+      "language": "zh",
+      "title": "辐射安全互动讲解（草稿）",
+      "current_version": 1,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "互动环节带观众“拼一拼屏蔽墙的位置”，材料中标注了束流管道走向（草稿，尚未提交审校）。",
+          "state": "待改写",
+          "evidence_refs": ["SRC-HIAF-02-RES"],
+          "created_at": "2026-04-20",
+          "confirmed_by": []
+        }
+      ]
+    },
+    {
+      "id": "EX-MG-01-LABEL-1114",
+      "topic_id": "T-MG",
+      "claim_id": "C-MG-01",
+      "format": "展签",
+      "age_band": "11-14岁",
+      "language": "zh",
+      "title": "没有重力，水怎么“走”管道",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "在太空里水不会自己往下流，科学家让细孔“拉住”水往前爬，走完这段通道约要3.2秒。",
+          "state": "已被取代",
+          "evidence_refs": ["SRC-MG-01-V1"],
+          "created_at": "2026-03-01",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 1, "expression_version": 1, "at": "2026-03-05", "note": "3.2秒与第7批次数据一致"}
+          ]
+        },
+        {
+          "version": 2,
+          "based_on_claim_version": 2,
+          "body": "在太空里水不会自己往下流，靠表面张力让细孔“拉住”水往前爬；通道做过湿壁处理后，最新实验约2.7秒走完。",
+          "state": "已发布",
+          "evidence_refs": ["SRC-MG-01-V2"],
+          "created_at": "2026-04-08",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 2, "expression_version": 2, "at": "2026-04-09", "note": "2.7秒与湿壁条件说明准确"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EX-MG-01-LABEL-710",
+      "topic_id": "T-MG",
+      "claim_id": "C-MG-01",
+      "format": "展签",
+      "age_band": "7-10岁",
+      "language": "zh",
+      "title": "小水滴走迷宫",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "太空里没有重力帮忙，小水滴会像我们用吸管吸饮料一样，被细细的通道吸着走，走完全程约3.2秒。",
+          "state": "已被取代",
+          "evidence_refs": ["SRC-MG-01-V1"],
+          "created_at": "2026-03-01",
+          "confirmed_by": []
+        },
+        {
+          "version": 2,
+          "based_on_claim_version": 2,
+          "body": "太空里没有重力帮忙，小水滴会被细细的通道壁“拉住”往前走（不是用嘴吸哦，是小孔自己会拉水），走完约2.7秒。",
+          "state": "已发布",
+          "evidence_refs": ["SRC-MG-01-V2"],
+          "created_at": "2026-05-22",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 2, "expression_version": 2, "at": "2026-05-23", "note": "去掉“吸管吸”的误导后同意保留比喻；按分歧D-01保留限定语"},
+            {"expert_id": "E-03", "claim_version": 2, "expression_version": 2, "at": "2026-05-22", "note": "7-10岁可理解，限定语不增加阅读负担"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EX-MG-01-SCRIPT",
+      "topic_id": "T-MG",
+      "claim_id": "C-MG-01",
+      "format": "互动脚本",
+      "age_band": "11-14岁",
+      "language": "zh",
+      "title": "毛细输送互动演示脚本",
+      "current_version": 1,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "【演示】倒计时开始，液体沿2毫米通道爬升，引导观众读数：约3.2秒。提问：如果通道壁先被润湿会怎样？",
+          "state": "需修订",
+          "evidence_refs": ["SRC-MG-01-V1"],
+          "created_at": "2026-03-08",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 1, "expression_version": 1, "at": "2026-03-09", "note": "脚本读数与旧批次一致"}
+          ],
+          "revision_note": "研究更新事件EV-01后，读数与提问需改为2.7秒并加入湿壁条件"
+        }
+      ]
+    },
+    {
+      "id": "EX-MG-01-A11Y",
+      "topic_id": "T-MG",
+      "claim_id": "C-MG-01",
+      "format": "无障碍文本",
+      "age_band": "全龄",
+      "language": "zh",
+      "title": "微重力输水（听读与大字版）",
+      "current_version": 2,
+      "versions": [
+        {
+          "version": 1,
+          "based_on_claim_version": 1,
+          "body": "在没有重力的环境里，水不会自己往下流。细通道的表面像有小手，把水拉着向前。水走完通道，大约需要3.2秒。",
+          "state": "已被取代",
+          "evidence_refs": ["SRC-MG-01-V1"],
+          "created_at": "2026-03-02",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 1, "expression_version": 1, "at": "2026-03-05", "note": "听读版数字准确"}
+          ]
+        },
+        {
+          "version": 2,
+          "based_on_claim_version": 2,
+          "body": "在没有重力的环境里，水不会自己往下流。细通道的表面像有小手，把水拉着向前。通道提前润湿后，水走完通道，大约需要2.7秒。",
+          "state": "已发布",
+          "evidence_refs": ["SRC-MG-01-V2"],
+          "created_at": "2026-04-08",
+          "confirmed_by": [
+            {"expert_id": "E-02", "claim_version": 2, "expression_version": 2, "at": "2026-04-09", "note": "数字与条件准确"}
+          ]
+        }
+      ]
+    }
+  ],
+  "disputes": [
+    {
+      "id": "D-01",
+      "topic_id": "T-MG",
+      "target": {"type": "受众版本", "expression_id": "EX-MG-01-LABEL-710", "version": 1},
+      "opened_at": "2026-03-12",
+      "status": "已裁定",
+      "trigger_feedback_id": "FB-01",
+      "positions": [
+        {
+          "party": "科研专家",
+          "expert_id": "E-02",
+          "stance": "反对原比喻",
+          "content": "“像用吸管吸饮料”会让儿童以为是嘴吸造成的气压差，而毛细作用是表面张力驱动，机理完全不同，属于失真。",
+          "at": "2026-03-12"
+        },
+        {
+          "party": "教育编审",
+          "expert_id": "E-03",
+          "stance": "主张保留具象比喻",
+          "content": "7-10岁儿童没有气压与表面张力的先备知识，完全去掉比喻后现场预测多数儿童无法建立任何画面，建议保留并加限定。",
+          "at": "2026-03-14"
+        }
+      ],
+      "resolution": {
+        "decision": "比喻保留但改写：删除“吸”的动作暗示，改为通道壁“拉住”水，并显式说明“不是用嘴吸”；双方原话随记录永久保留，11-14岁版本不使用该比喻。",
+        "decided_by": "E-02",
+        "at": "2026-05-21",
+        "produced_expression_version": {"expression_id": "EX-MG-01-LABEL-710", "version": 2}
+      },
+      "retain_in_record": true
+    }
+  ],
+  "change_events": [
+    {
+      "id": "EV-01",
+      "type": "研究更新",
+      "claim_id": "C-MG-01",
+      "from_version": 1,
+      "to_version": 2,
+      "at": "2026-04-02",
+      "by": "E-02",
+      "summary": "湿壁预处理新批次实验发表，输送时间3.2秒修正为2.7秒，并新增湿壁适用条件。",
+      "evidence_added": ["SRC-MG-01-V2"],
+      "feedback_links": ["FB-02"]
+    },
+    {
+      "id": "EV-02",
+      "type": "数字修正",
+      "claim_id": "C-HIAF-01",
+      "from_version": 1,
+      "to_version": 2,
+      "at": "2026-04-01",
+      "by": "E-01",
+      "summary": "2026年春季调试结果将最高速度从“约光速80%（设计值）”修正为“约83%±2个百分点（调试值）”。",
+      "evidence_added": []
+    },
+    {
+      "id": "EV-03",
+      "type": "敏感细节删减",
+      "claim_id": "C-HIAF-02",
+      "from_version": 1,
+      "to_version": 2,
+      "at": "2026-05-08",
+      "by": "发布管理员",
+      "summary": "删除屏蔽布局与束流管道位置等敏感细节，撤回误引受限内部报告的安全提示v1。",
+      "withdrawn_expressions": [{"expression_id": "EX-HIAF-02-SAFETY", "version": 1}],
+      "redaction_check": "所有在版公众表达不得引用SRC-HIAF-02-RES"
+    }
+  ],
+  "carriers": [
+    {
+      "id": "CP-001",
+      "kind": "印刷展签",
+      "title": "主展厅展签板（3月批次）",
+      "location": "主展厅A区",
+      "binding": "固定版本",
+      "immutable_after_print": true,
+      "printed_batch": "B-2026-03",
+      "printed_at": "2026-03-20",
+      "status": "在展",
+      "qr_code": "QR-PRINT-001",
+      "pins": [
+        {"expression_id": "EX-HIAF-01-LABEL", "version": 1, "content_hash": null},
+        {"expression_id": "EX-MG-01-LABEL-1114", "version": 1, "content_hash": null}
+      ],
+      "replacement_policy": "旧批次继续在展，不回收、不替换；扫码可见更新与口播补充，新内容通过B-2026-06批次另行增发"
+    },
+    {
+      "id": "CP-002",
+      "kind": "印刷展签",
+      "title": "主展厅展签板（6月增发批次）",
+      "location": "主展厅入口补发位",
+      "binding": "固定版本",
+      "immutable_after_print": true,
+      "printed_batch": "B-2026-06",
+      "printed_at": "2026-06-05",
+      "status": "在展",
+      "qr_code": "QR-PRINT-002",
+      "pins": [
+        {"expression_id": "EX-HIAF-01-LABEL", "version": 2, "content_hash": null},
+        {"expression_id": "EX-HIAF-02-SAFETY", "version": 2, "content_hash": null},
+        {"expression_id": "EX-MG-01-LABEL-1114", "version": 2, "content_hash": null}
+      ],
+      "replacement_policy": "作为新批次增发，不覆盖CP-001的任何固定内容"
+    },
+    {
+      "id": "CP-101",
+      "kind": "互动屏",
+      "title": "展厅互动大屏",
+      "location": "主展厅互动区",
+      "binding": "随批准更新",
+      "immutable_after_print": false,
+      "status": "在展",
+      "qr_code": "QR-SCREEN-101",
+      "live_bindings": [
+        "EX-HIAF-01-LABEL",
+        "EX-HIAF-02-SAFETY",
+        "EX-MG-01-LABEL-1114",
+        "EX-MG-01-LABEL-710",
+        "EX-MG-01-A11Y"
+      ]
+    },
+    {
+      "id": "CP-102",
+      "kind": "讲解平板",
+      "title": "讲解员工作平板",
+      "location": "讲解员随身",
+      "binding": "随批准更新",
+      "immutable_after_print": false,
+      "status": "在用",
+      "qr_code": "QR-TABLET-102",
+      "live_bindings": ["EX-MG-01-SCRIPT", "EX-MG-01-LABEL-710"]
+    }
+  ],
+  "qr_codes": [
+    {"code": "QR-PRINT-001", "carrier_id": "CP-001", "purpose": "讲解员扫码获取该固定批次的现场当前版本对照"},
+    {"code": "QR-PRINT-002", "carrier_id": "CP-002", "purpose": "讲解员扫码核验增发批次内容"},
+    {"code": "QR-SCREEN-101", "carrier_id": "CP-101", "purpose": "观众反馈入口与讲解员取当前版本"},
+    {"code": "QR-TABLET-102", "carrier_id": "CP-102", "purpose": "讲解员脚本与待修订提示"}
+  ],
+  "feedback": [
+    {
+      "id": "FB-01",
+      "source": "观众",
+      "via_qr": "QR-SCREEN-101",
+      "about": {"expression_id": "EX-MG-01-LABEL-710", "version": 1},
+      "type": "误解",
+      "content": "孩子问：宇航员在太空是不是一直用吸管把水吸过去的？（来自现场试用屏）",
+      "received_at": "2026-05-10",
+      "status": "已纳入修订",
+      "routed_to_dispute": "D-01",
+      "resolution_ref": {"expression_id": "EX-MG-01-LABEL-710", "version": 2}
+    },
+    {
+      "id": "FB-02",
+      "source": "讲解员",
+      "via_qr": "QR-TABLET-102",
+      "about": {"expression_id": "EX-MG-01-SCRIPT", "version": 1},
+      "type": "疑问",
+      "content": "观众看到论文消息问输送时间到底是3.2秒还是2.7秒，脚本上还是旧数字。",
+      "received_at": "2026-05-15",
+      "status": "待修订",
+      "linked_event": "EV-01"
+    },
+    {
+      "id": "FB-03",
+      "source": "观众",
+      "via_qr": "QR-PRINT-001",
+      "about": {"expression_id": "EX-HIAF-02-SAFETY", "version": 2},
+      "type": "安全相关",
+      "content": "加速器会不会有辐射伤到参观者？",
+      "received_at": "2026-07-02",
+      "status": "已回复",
+      "response": "讲解员按已发布安全提示v2作答：公众区域在屏蔽外，年附加剂量远低于国家公众限值。",
+      "answered_at": "2026-07-02"
+    }
+  ]
 }
