@@ -9,45 +9,502 @@
     "record_types",
     "workflow_states",
     "facts",
-    "sample"
+    "sample",
+    "topics",
+    "reviewers",
+    "evidences",
+    "claims",
+    "derivatives",
+    "reviews",
+    "review_resolutions",
+    "change_events",
+    "venues",
+    "publications",
+    "qr_codes",
+    "notices",
+    "feedback"
   ],
+  "additionalProperties": false,
   "properties": {
-    "domain": {
-      "const": "science-content-review"
-    },
-    "version": {
-      "type": "integer",
-      "minimum": 1
-    },
-    "sample_id": {
-      "type": "string",
-      "minLength": 1
-    },
+    "domain": { "const": "science-content-review" },
+    "version": { "type": "integer", "minimum": 2 },
+    "sample_id": { "type": "string", "minLength": 1 },
     "record_types": {
       "type": "array",
       "minItems": 3,
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "workflow_states": {
       "type": "array",
       "minItems": 3,
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "facts": {
       "type": "array",
       "minItems": 2,
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "sample": {
       "type": "object",
       "minProperties": 3
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/topic" }
+    },
+    "reviewers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/reviewer" }
+    },
+    "evidences": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "derivatives": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/derivative" }
+    },
+    "reviews": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/review" }
+    },
+    "review_resolutions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/reviewResolution" }
+    },
+    "change_events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/changeEvent" }
+    },
+    "venues": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/venue" }
+    },
+    "publications": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/publication" }
+    },
+    "qr_codes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/qrCode" }
+    },
+    "notices": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/notice" }
+    },
+    "feedback": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feedbackItem" }
     }
   },
-  "additionalProperties": false
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "topic": {
+      "type": "object",
+      "required": ["id", "name", "short_name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "short_name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "required": ["id", "name", "kind", "organization", "expertise_topic_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": ["科学专家", "安全专员", "翻译", "教育人员"]
+        },
+        "organization": { "type": "string", "minLength": 1 },
+        "expertise_topic_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        }
+      }
+    },
+    "evidenceScope": {
+      "type": "object",
+      "required": ["topic_id", "summary", "conditions", "boundaries", "public_use_allowed"],
+      "additionalProperties": false,
+      "properties": {
+        "topic_id": { "$ref": "#/$defs/id" },
+        "summary": { "type": "string", "minLength": 1 },
+        "conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "public_use_allowed": { "type": "boolean" }
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "required": ["redacted", "removed_fields", "reason", "public_note"],
+      "additionalProperties": false,
+      "properties": {
+        "redacted": { "const": true },
+        "removed_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "public_note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["id", "title", "source_kind", "publisher", "published_at", "locator", "scope"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "source_kind": {
+          "enum": ["同行评议论文", "装置数据集", "安全报告", "同行评议更正说明"]
+        },
+        "publisher": { "type": "string", "minLength": 1 },
+        "published_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "locator": { "type": "string", "minLength": 1 },
+        "excerpt": { "type": "string" },
+        "key_values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "value": { "type": "string" }
+            }
+          }
+        },
+        "scope": { "$ref": "#/$defs/evidenceScope" },
+        "redaction": { "$ref": "#/$defs/redaction" }
+      }
+    },
+    "evidenceLink": {
+      "type": "object",
+      "required": ["evidence_id", "supports", "scope_note"],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/id" },
+        "supports": { "type": "string", "minLength": 1 },
+        "scope_note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claimVersion": {
+      "type": "object",
+      "required": ["id", "version_number", "statement", "status", "evidence_links"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "version_number": { "type": "integer", "minimum": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["草稿", "有效", "已被替代", "有分歧"]
+        },
+        "evidence_links": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evidenceLink" }
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "required": ["id", "topic_id", "current_version_id", "versions"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "topic_id": { "$ref": "#/$defs/id" },
+        "current_version_id": { "$ref": "#/$defs/id" },
+        "versions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/claimVersion" }
+        }
+      }
+    },
+    "derivative": {
+      "type": "object",
+      "required": [
+        "id",
+        "topic_id",
+        "claim_version_id",
+        "product_type",
+        "age_band",
+        "language",
+        "title",
+        "text",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "topic_id": { "$ref": "#/$defs/id" },
+        "claim_version_id": { "$ref": "#/$defs/id" },
+        "product_type": {
+          "enum": ["展签", "交互脚本", "翻译", "无障碍文本", "安全提示"]
+        },
+        "age_band": {
+          "enum": ["6-9岁", "10-14岁", "15岁以上", "全年龄"]
+        },
+        "language": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["草稿", "待确认", "有分歧", "已批准", "已发布", "需修订"]
+        },
+        "source_derivative_id": { "$ref": "#/$defs/id" },
+        "parent_derivative_id": { "$ref": "#/$defs/id" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["id", "reviewer_id", "target_type", "target_id", "decision", "comment", "created_at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "reviewer_id": { "$ref": "#/$defs/id" },
+        "target_type": {
+          "enum": ["claim_version", "derivative"]
+        },
+        "target_id": { "$ref": "#/$defs/id" },
+        "decision": {
+          "enum": ["同意", "要求修改", "不同意", "存疑"]
+        },
+        "comment": { "type": "string", "minLength": 1 },
+        "created_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "reviewResolution": {
+      "type": "object",
+      "required": [
+        "id",
+        "review_id",
+        "disposition",
+        "status",
+        "rationale",
+        "visible_to_research_organization",
+        "decided_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "review_id": { "$ref": "#/$defs/id" },
+        "disposition": {
+          "enum": ["采纳", "未采纳", "延后", "分歧保留"]
+        },
+        "status": {
+          "enum": ["已处理", "开放"]
+        },
+        "rationale": { "type": "string", "minLength": 1 },
+        "visible_to_research_organization": { "type": "boolean" },
+        "change_event_id": { "$ref": "#/$defs/id" },
+        "related_review_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "resulting_derivative_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "decided_by": { "type": "string" },
+        "decided_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "changeEvent": {
+      "type": "object",
+      "required": ["id", "change_kind", "topic_id", "status", "summary"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "change_kind": {
+          "enum": ["研究更新", "数字修正", "敏感细节删减", "专家分歧", "观众误解"]
+        },
+        "topic_id": { "$ref": "#/$defs/id" },
+        "status": {
+          "enum": ["已生效", "开放", "已关闭"]
+        },
+        "summary": { "type": "string", "minLength": 1 },
+        "from_claim_version_id": { "$ref": "#/$defs/id" },
+        "to_claim_version_id": { "$ref": "#/$defs/id" },
+        "from_derivative_id": { "$ref": "#/$defs/id" },
+        "to_derivative_id": { "$ref": "#/$defs/id" },
+        "evidence_id": { "$ref": "#/$defs/id" },
+        "feedback_id": { "$ref": "#/$defs/id" },
+        "review_id": { "$ref": "#/$defs/id" },
+        "related_review_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "removed_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "venue": {
+      "type": "object",
+      "required": ["id", "name", "location", "audience_age_band"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "location": { "type": "string", "minLength": 1 },
+        "audience_age_band": {
+          "enum": ["6-9岁", "10-14岁", "15岁以上", "全年龄"]
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "required": [
+        "id",
+        "venue_id",
+        "carrier_type",
+        "status",
+        "derivative_id",
+        "placed_at",
+        "immutable",
+        "content_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "venue_id": { "$ref": "#/$defs/id" },
+        "carrier_type": {
+          "enum": ["纸质展签", "互动屏", "音频导览"]
+        },
+        "status": {
+          "enum": ["已印刷不可变", "当前", "历史版本"]
+        },
+        "derivative_id": { "$ref": "#/$defs/id" },
+        "placed_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "immutable": { "type": "boolean" },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "replacement_policy": {
+          "enum": ["仅新印刷批次可替换", "数字渠道可版本化更新"]
+        }
+      }
+    },
+    "qrCode": {
+      "type": "object",
+      "required": ["id", "venue_id", "linked_publication_id", "payload", "resolution_mode"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "venue_id": { "$ref": "#/$defs/id" },
+        "linked_publication_id": { "$ref": "#/$defs/id" },
+        "payload": { "type": "string", "minLength": 1 },
+        "resolution_mode": {
+          "enum": ["场地当前版本"]
+        }
+      }
+    },
+    "notice": {
+      "type": "object",
+      "required": [
+        "id",
+        "publication_id",
+        "severity",
+        "message",
+        "change_event_id",
+        "current_derivative_id",
+        "show_on_scan"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "publication_id": { "$ref": "#/$defs/id" },
+        "severity": {
+          "enum": ["信息更新", "数字更正", "安全说明"]
+        },
+        "message": { "type": "string", "minLength": 1 },
+        "change_event_id": { "$ref": "#/$defs/id" },
+        "current_derivative_id": { "$ref": "#/$defs/id" },
+        "show_on_scan": { "type": "boolean" }
+      }
+    },
+    "feedbackItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "venue_id",
+        "audience_age_band",
+        "category",
+        "visitor_quote",
+        "target_derivative_id",
+        "target_expression",
+        "status",
+        "received_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "venue_id": { "$ref": "#/$defs/id" },
+        "audience_age_band": {
+          "enum": ["6-9岁", "10-14岁", "15岁以上", "全年龄"]
+        },
+        "category": {
+          "enum": ["疑问", "误解", "安全顾虑", "事实更正"]
+        },
+        "visitor_quote": { "type": "string", "minLength": 1 },
+        "target_derivative_id": { "$ref": "#/$defs/id" },
+        "target_expression": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["待评估", "已纳入", "已解释", "暂不调整"]
+        },
+        "change_event_id": { "$ref": "#/$defs/id" },
+        "revised_derivative_id": { "$ref": "#/$defs/id" },
+        "response_note": { "type": "string" },
+        "received_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
 }

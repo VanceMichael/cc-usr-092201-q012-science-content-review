@@ -1,6 +1,6 @@
 {
   "domain": "science-content-review",
-  "version": 1,
+  "version": 2,
   "sample_id": "092201-012",
   "record_types": [
     "科学主张",
@@ -21,12 +21,709 @@
   "facts": [
     "活动把前沿科研成果转化为可看、可触和可玩的内容",
     "展品覆盖空天、材料、制造和生命健康等领域",
-    "科普表达需要连接科研准确性与公众理解"
+    "科普表达需要连接科研准确性与公众理解",
+    "每条科学主张都必须链接证据及适用范围",
+    "通俗改写必须获得对应领域专家确认后才能发布",
+    "已印刷内容保留为不可变记录，更新通过现场当前版本和更正提示呈现"
   ],
   "sample": {
-    "topic": "微重力液体运输",
-    "audience": "10至14岁",
-    "carrier": "互动屏",
-    "reviewers": 3
-  }
+    "topics": ["强流重离子加速器", "微重力液体运输"],
+    "audiences": ["6-9岁", "10-14岁", "15岁以上", "全年龄"],
+    "products": ["展签", "交互脚本", "翻译", "无障碍文本", "安全提示"],
+    "reviewers": 5
+  },
+  "topics": [
+    {
+      "id": "hiaf",
+      "name": "强流重离子加速器",
+      "short_name": "重离子加速器"
+    },
+    {
+      "id": "microgravity-fluid",
+      "name": "微重力液体运输",
+      "short_name": "太空液体运输"
+    }
+  ],
+  "reviewers": [
+    {
+      "id": "expert-hiaf-beam",
+      "name": "示例专家A",
+      "kind": "科学专家",
+      "organization": "虚构加速器研究所",
+      "expertise_topic_ids": ["hiaf"]
+    },
+    {
+      "id": "expert-hiaf-safety",
+      "name": "示例专家B",
+      "kind": "安全专员",
+      "organization": "虚构装置安全办公室",
+      "expertise_topic_ids": ["hiaf"]
+    },
+    {
+      "id": "expert-fluid-physics",
+      "name": "示例专家C",
+      "kind": "科学专家",
+      "organization": "虚构微重力实验室",
+      "expertise_topic_ids": ["microgravity-fluid"]
+    },
+    {
+      "id": "educator-primary",
+      "name": "示例教育人员D",
+      "kind": "教育人员",
+      "organization": "虚构青少年教育中心",
+      "expertise_topic_ids": ["hiaf", "microgravity-fluid"]
+    },
+    {
+      "id": "translator-en",
+      "name": "示例译者E",
+      "kind": "翻译",
+      "organization": "虚构多语服务组",
+      "expertise_topic_ids": ["hiaf", "microgravity-fluid"]
+    }
+  ],
+  "evidences": [
+    {
+      "id": "ev-hiaf-2025-paper",
+      "title": "虚构强流重离子加速器束流参数论文",
+      "source_kind": "同行评议论文",
+      "publisher": "示例加速器期刊",
+      "published_at": "2025-03-18",
+      "locator": "doi:10.0000/example-hiaf-2025",
+      "excerpt": "示例论文报告了设计阶段的束流强度目标，不应表述为已经稳定运行的实测值。",
+      "key_values": [
+        { "name": "设计束流强度", "value": "示例值 1.0×10^13 粒子/脉冲" }
+      ],
+      "scope": {
+        "topic_id": "hiaf",
+        "summary": "适用于解释强流重离子加速器设计目标和束流强度概念。",
+        "conditions": ["限定为设计目标", "仅限虚构示例装置参数"],
+        "boundaries": ["不能说成已实现的长期运行指标", "不得据此推断具体实验排期"],
+        "public_use_allowed": true
+      }
+    },
+    {
+      "id": "ev-hiaf-2026-correction",
+      "title": "虚构强流重离子加速器参数更正说明",
+      "source_kind": "同行评议更正说明",
+      "publisher": "示例加速器期刊",
+      "published_at": "2026-08-06",
+      "locator": "doi:10.0000/example-hiaf-2025-correction",
+      "excerpt": "更正说明把公众材料中容易误读的设计指标改写为范围，并标明模拟条件。",
+      "key_values": [
+        { "name": "设计束流强度范围", "value": "示例范围 0.8×10^13 至 1.0×10^13 粒子/脉冲" }
+      ],
+      "scope": {
+        "topic_id": "hiaf",
+        "summary": "适用于替换旧稿中的单一数字，强调范围和条件。",
+        "conditions": ["必须同时说明模拟/设计条件", "用于2026年8月6日后版本"],
+        "boundaries": ["不回溯改写历史印刷物正文", "不能省略不确定性"],
+        "public_use_allowed": true
+      }
+    },
+    {
+      "id": "ev-hiaf-safety",
+      "title": "虚构加速器辐射安全审查报告（公开版）",
+      "source_kind": "安全报告",
+      "publisher": "虚构装置安全办公室",
+      "published_at": "2025-05-10",
+      "locator": "safety-report:example-hiaf-public",
+      "excerpt": "公开版只保留多层屏蔽、联锁和人员培训原则。",
+      "scope": {
+        "topic_id": "hiaf",
+        "summary": "适用于解释参观安全依赖制度和工程屏障。",
+        "conditions": ["仅使用公开版", "不得诱导观众尝试接近设备"],
+        "boundaries": ["不公开联锁位置、阈值和巡检路线"],
+        "public_use_allowed": true
+      },
+      "redaction": {
+        "redacted": true,
+        "removed_fields": ["联锁触发阈值", "设备间路线", "巡检时间"],
+        "reason": "避免泄露可被利用的装置安全细节。",
+        "public_note": "安全资料已删减敏感操作细节，仅保留公众需要知道的安全原则。"
+      }
+    },
+    {
+      "id": "ev-fluid-2024-paper",
+      "title": "虚构微重力毛细管运输实验论文",
+      "source_kind": "同行评议论文",
+      "publisher": "示例空间流体期刊",
+      "published_at": "2024-11-02",
+      "locator": "doi:10.0000/example-fluid-2024",
+      "excerpt": "实验显示在微重力条件下，毛细作用可推动液体沿特定截面通道移动。",
+      "key_values": [
+        { "name": "通道截面", "value": "示例 2 毫米宽" },
+        { "name": "观察时长", "value": "示例 12 秒" }
+      ],
+      "scope": {
+        "topic_id": "microgravity-fluid",
+        "summary": "适用于说明微重力下表面张力和毛细作用相对更明显。",
+        "conditions": ["限定在特定通道和低流速实验", "观察结果限于示例实验时长"],
+        "boundaries": ["不能说液体在太空会自动向上流", "不能外推到生活水管或燃料系统"],
+        "public_use_allowed": true
+      }
+    },
+    {
+      "id": "ev-fluid-2026-update",
+      "title": "虚构后续落塔实验更新数据集",
+      "source_kind": "装置数据集",
+      "publisher": "虚构落塔设施",
+      "published_at": "2026-06-21",
+      "locator": "dataset:example-drop-tower-fluid-v2",
+      "excerpt": "新数据补充了接触角和气泡滞留对运输稳定性的影响。",
+      "key_values": [
+        { "name": "稳定运输条件", "value": "接触角与通道形状共同决定" }
+      ],
+      "scope": {
+        "topic_id": "microgravity-fluid",
+        "summary": "适用于给旧解释增加条件限制，但不推翻毛细作用的核心现象。",
+        "conditions": ["与2024年实验条件并列说明", "落塔短时微重力不能等同于长期空间站环境"],
+        "boundaries": ["不能把落塔秒级结果表述为长期空间应用已验证"],
+        "public_use_allowed": true
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-hiaf-intensity",
+      "topic_id": "hiaf",
+      "current_version_id": "claim-hiaf-intensity-v2",
+      "versions": [
+        {
+          "id": "claim-hiaf-intensity-v1",
+          "version_number": 1,
+          "statement": "这台强流重离子加速器能把大量重离子加速到很高能量，旧稿用单一设计束流强度数值表示其能力。",
+          "status": "已被替代",
+          "evidence_links": [
+            {
+              "evidence_id": "ev-hiaf-2025-paper",
+              "supports": "强流和高能概念以及早期设计目标。",
+              "scope_note": "仅支持设计目标；旧稿的单一数字容易被理解为实测值。"
+            }
+          ]
+        },
+        {
+          "id": "claim-hiaf-intensity-v2",
+          "version_number": 2,
+          "statement": "强流重离子加速器可在受控束线中加速重离子；面向公众应把束流能力表述为带条件的设计范围，而不是已经长期稳定达到的单一数值。",
+          "status": "有效",
+          "evidence_links": [
+            {
+              "evidence_id": "ev-hiaf-2026-correction",
+              "supports": "用范围和模拟/设计条件替代单一数字。",
+              "scope_note": "适用于2026年8月6日后的公众版本。"
+            },
+            {
+              "evidence_id": "ev-hiaf-2025-paper",
+              "supports": "加速器用途和束流概念背景。",
+              "scope_note": "只作背景，不再单独支持具体数字。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "claim-hiaf-safety",
+      "topic_id": "hiaf",
+      "current_version_id": "claim-hiaf-safety-v1",
+      "versions": [
+        {
+          "id": "claim-hiaf-safety-v1",
+          "version_number": 1,
+          "statement": "参观安全来自屏蔽、联锁、权限分区和培训等多层保护；公开讲解不描述触发阈值、路线或巡检时间。",
+          "status": "有分歧",
+          "evidence_links": [
+            {
+              "evidence_id": "ev-hiaf-safety",
+              "supports": "多层安全原则和公开版边界。",
+              "scope_note": "仅支持原则性说明，敏感字段已删减。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "claim-fluid-capillary",
+      "topic_id": "microgravity-fluid",
+      "current_version_id": "claim-fluid-capillary-v2",
+      "versions": [
+        {
+          "id": "claim-fluid-capillary-v1",
+          "version_number": 1,
+          "statement": "在微重力环境里，毛细作用可以帮助液体沿通道移动。",
+          "status": "已被替代",
+          "evidence_links": [
+            {
+              "evidence_id": "ev-fluid-2024-paper",
+              "supports": "特定通道中的毛细运输现象。",
+              "scope_note": "限定在短时、低流速和特定截面条件。"
+            }
+          ]
+        },
+        {
+          "id": "claim-fluid-capillary-v2",
+          "version_number": 2,
+          "statement": "微重力会削弱重力方向带来的流动优势，使表面张力和通道形状的影响更突出；液体能否稳定移动还取决于接触角、通道形状和气泡滞留，落塔短时结果不能直接等同于长期太空应用。",
+          "status": "有效",
+          "evidence_links": [
+            {
+              "evidence_id": "ev-fluid-2024-paper",
+              "supports": "毛细作用在特定微重力实验中推动液体。",
+              "scope_note": "支持核心现象，不支持无条件外推。"
+            },
+            {
+              "evidence_id": "ev-fluid-2026-update",
+              "supports": "接触角、通道形状和气泡滞留等限制条件。",
+              "scope_note": "落塔短时微重力证据，须说明适用边界。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "derivatives": [
+    {
+      "id": "deriv-hiaf-label-10-v1",
+      "topic_id": "hiaf",
+      "claim_version_id": "claim-hiaf-intensity-v1",
+      "product_type": "展签",
+      "age_band": "10-14岁",
+      "language": "zh-CN",
+      "title": "把离子送上高速跑道",
+      "text": "旧版展签：加速器像一条环形高速跑道，能用单一数字表示每一束里有多少离子。",
+      "status": "需修订"
+    },
+    {
+      "id": "deriv-hiaf-label-10-v2",
+      "topic_id": "hiaf",
+      "claim_version_id": "claim-hiaf-intensity-v2",
+      "source_derivative_id": "deriv-hiaf-label-10-v1",
+      "product_type": "展签",
+      "age_band": "10-14岁",
+      "language": "zh-CN",
+      "title": "把离子送上高速跑道",
+      "text": "加速器像一条有交通指挥的高速跑道。科学家用一个带条件的范围描述束流能力：这像设计速度，不等于每次实测都完全相同。",
+      "status": "已批准"
+    },
+    {
+      "id": "deriv-hiaf-interact-6-v1",
+      "topic_id": "hiaf",
+      "claim_version_id": "claim-hiaf-intensity-v2",
+      "product_type": "交互脚本",
+      "age_band": "6-9岁",
+      "language": "zh-CN",
+      "title": "离子小列车",
+      "text": "请把发光小球吸进透明管道。屏幕提示：这些小球像离子，磁力帮它们排队、加速；真正的装置有许多保护门，小朋友不能靠近真实设备。",
+      "status": "已批准"
+    },
+    {
+      "id": "deriv-hiaf-safety-all-v1",
+      "topic_id": "hiaf",
+      "claim_version_id": "claim-hiaf-safety-v1",
+      "product_type": "安全提示",
+      "age_band": "全年龄",
+      "language": "zh-CN",
+      "title": "为什么只能在参观区观看",
+      "text": "真实装置有屏蔽、权限门、联锁和工作人员培训。请始终跟随参观路线，不拍摄或询问可绕过安全措施的细节。",
+      "status": "有分歧"
+    },
+    {
+      "id": "deriv-fluid-label-10-v1",
+      "topic_id": "microgravity-fluid",
+      "claim_version_id": "claim-fluid-capillary-v1",
+      "product_type": "展签",
+      "age_band": "10-14岁",
+      "language": "zh-CN",
+      "title": "太空中的水会怎样走",
+      "text": "旧版展签：在太空里，水会靠着细小通道自己向前走。",
+      "status": "需修订"
+    },
+    {
+      "id": "deriv-fluid-label-10-v2",
+      "topic_id": "microgravity-fluid",
+      "claim_version_id": "claim-fluid-capillary-v2",
+      "source_derivative_id": "deriv-fluid-label-10-v1",
+      "product_type": "展签",
+      "age_band": "10-14岁",
+      "language": "zh-CN",
+      "title": "太空中的水会怎样走",
+      "text": "在微重力里，水更容易被管壁“拉住”。如果通道形状、材料和气泡条件合适，水可以沿细通道移动；这不是所有水管都会自动发生的事。",
+      "status": "已批准"
+    },
+    {
+      "id": "deriv-fluid-interact-6-v1",
+      "topic_id": "microgravity-fluid",
+      "claim_version_id": "claim-fluid-capillary-v2",
+      "product_type": "交互脚本",
+      "age_band": "6-9岁",
+      "language": "zh-CN",
+      "title": "小水珠走迷宫",
+      "text": "请选择宽通道、窄通道和带气泡通道，观察水珠是否前进。旁白：管壁拉住水珠，通道形状也会帮忙；泡泡可能把路堵住。",
+      "status": "已批准"
+    },
+    {
+      "id": "deriv-fluid-a11y-10-v1",
+      "topic_id": "microgravity-fluid",
+      "claim_version_id": "claim-fluid-capillary-v2",
+      "product_type": "无障碍文本",
+      "age_band": "10-14岁",
+      "language": "zh-CN",
+      "title": "小水珠走迷宫的听觉描述",
+      "text": "互动屏中三颗水珠分别位于宽通道、窄通道和带气泡通道。微重力下没有明显上下方向，表面张力像看不见的小手，把水珠贴向管壁；窄通道中的水珠前进，带气泡通道停顿。",
+      "status": "已批准"
+    },
+    {
+      "id": "deriv-fluid-label-en-v1",
+      "topic_id": "microgravity-fluid",
+      "claim_version_id": "claim-fluid-capillary-v2",
+      "source_derivative_id": "deriv-fluid-label-10-v2",
+      "product_type": "翻译",
+      "age_band": "10-14岁",
+      "language": "en-US",
+      "title": "How Water Moves in Microgravity",
+      "text": "In microgravity, water can be held by a channel wall. With the right shape, material, and bubble conditions, it may move along a narrow channel; this does not mean every water pipe works automatically.",
+      "status": "待确认"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-hiaf-v1-number",
+      "reviewer_id": "expert-hiaf-beam",
+      "target_type": "derivative",
+      "target_id": "deriv-hiaf-label-10-v1",
+      "decision": "不同意",
+      "comment": "单一设计值会被理解成已实测达到，必须改成范围并说明条件。",
+      "created_at": "2026-08-12"
+    },
+    {
+      "id": "review-hiaf-v2-ok",
+      "reviewer_id": "expert-hiaf-beam",
+      "target_type": "derivative",
+      "target_id": "deriv-hiaf-label-10-v2",
+      "decision": "同意",
+      "comment": "范围和设计条件表述准确，适合10至14岁观众。",
+      "created_at": "2026-08-16"
+    },
+    {
+      "id": "review-hiaf-interact-ok",
+      "reviewer_id": "expert-hiaf-beam",
+      "target_type": "derivative",
+      "target_id": "deriv-hiaf-interact-6-v1",
+      "decision": "同意",
+      "comment": "比喻没有承诺真实束流数值，安全边界清楚。",
+      "created_at": "2026-08-16"
+    },
+    {
+      "id": "review-hiaf-safety-detail",
+      "reviewer_id": "expert-hiaf-safety",
+      "target_type": "derivative",
+      "target_id": "deriv-hiaf-safety-all-v1",
+      "decision": "要求修改",
+      "comment": "“不拍摄或询问”语气过硬，也可能反向提示存在可利用细节；建议改成只说明从官方公开渠道了解安全。",
+      "created_at": "2026-08-20"
+    },
+    {
+      "id": "review-hiaf-safety-education",
+      "reviewer_id": "educator-primary",
+      "target_type": "derivative",
+      "target_id": "deriv-hiaf-safety-all-v1",
+      "decision": "存疑",
+      "comment": "儿童需要明确行为边界，否则讲解员可能自由发挥。希望保留“跟随参观路线”。",
+      "created_at": "2026-08-21"
+    },
+    {
+      "id": "review-fluid-old-overreach",
+      "reviewer_id": "expert-fluid-physics",
+      "target_type": "derivative",
+      "target_id": "deriv-fluid-label-10-v1",
+      "decision": "要求修改",
+      "comment": "“自己向前走”缺少接触角、通道形状和气泡条件，且像无条件外推。",
+      "created_at": "2026-06-25"
+    },
+    {
+      "id": "review-fluid-v2-ok",
+      "reviewer_id": "expert-fluid-physics",
+      "target_type": "derivative",
+      "target_id": "deriv-fluid-label-10-v2",
+      "decision": "同意",
+      "comment": "保留了毛细作用，又说明了适用边界和落塔证据限制。",
+      "created_at": "2026-07-02"
+    },
+    {
+      "id": "review-fluid-interact-ok",
+      "reviewer_id": "expert-fluid-physics",
+      "target_type": "derivative",
+      "target_id": "deriv-fluid-interact-6-v1",
+      "decision": "同意",
+      "comment": "三种通道能让儿童观察条件差异，没有承诺所有液体都能移动。",
+      "created_at": "2026-07-02"
+    },
+    {
+      "id": "review-fluid-a11y-ok",
+      "reviewer_id": "expert-fluid-physics",
+      "target_type": "derivative",
+      "target_id": "deriv-fluid-a11y-10-v1",
+      "decision": "同意",
+      "comment": "听觉描述与互动结果一致，窄通道前进、气泡通道停顿均有实验条件支持。",
+      "created_at": "2026-07-03"
+    },
+    {
+      "id": "review-fluid-translation-open",
+      "reviewer_id": "translator-en",
+      "target_type": "derivative",
+      "target_id": "deriv-fluid-label-en-v1",
+      "decision": "存疑",
+      "comment": "“held by a channel wall”可读性尚可，但需英语母语科学译者确认 microgravity 与 capillary action 的术语搭配。",
+      "created_at": "2026-07-05"
+    }
+  ],
+  "review_resolutions": [
+    {
+      "id": "resolution-hiaf-number",
+      "review_id": "review-hiaf-v1-number",
+      "disposition": "采纳",
+      "status": "已处理",
+      "rationale": "旧展签下线为需修订，新版使用设计范围和条件比喻。",
+      "visible_to_research_organization": true,
+      "change_event_id": "event-hiaf-number-correction",
+      "resulting_derivative_ids": ["deriv-hiaf-label-10-v2"],
+      "decided_by": "科普内容负责人",
+      "decided_at": "2026-08-15"
+    },
+    {
+      "id": "resolution-hiaf-safety-conflict",
+      "review_id": "review-hiaf-safety-detail",
+      "disposition": "分歧保留",
+      "status": "开放",
+      "rationale": "安全专员希望删除可能提示攻击面的句子，教育团队要求保留儿童行为边界；尚未形成统一文案。",
+      "visible_to_research_organization": true,
+      "related_review_ids": ["review-hiaf-safety-education"],
+      "decided_at": "2026-08-22"
+    },
+    {
+      "id": "resolution-hiaf-safety-education-conflict",
+      "review_id": "review-hiaf-safety-education",
+      "disposition": "分歧保留",
+      "status": "开放",
+      "rationale": "教育团队希望保留明确行为边界，安全专员担心措辞反向提示敏感细节；需另拟不暴露安全操作细节的儿童版表达。",
+      "visible_to_research_organization": true,
+      "related_review_ids": ["review-hiaf-safety-detail"],
+      "decided_at": "2026-08-22"
+    },
+    {
+      "id": "resolution-fluid-update",
+      "review_id": "review-fluid-old-overreach",
+      "disposition": "采纳",
+      "status": "已处理",
+      "rationale": "根据落塔新数据增加条件限制，并标注短时微重力不能外推长期空间应用。",
+      "visible_to_research_organization": true,
+      "change_event_id": "event-fluid-research-update",
+      "resulting_derivative_ids": ["deriv-fluid-label-10-v2", "deriv-fluid-interact-6-v1"],
+      "decided_by": "科普内容负责人",
+      "decided_at": "2026-07-01"
+    },
+    {
+      "id": "resolution-fluid-translation",
+      "review_id": "review-fluid-translation-open",
+      "disposition": "延后",
+      "status": "开放",
+      "rationale": "等待英语母语科学译者确认；未确认前不得发布英文翻译。",
+      "visible_to_research_organization": true,
+      "decided_at": "2026-07-06"
+    }
+  ],
+  "change_events": [
+    {
+      "id": "event-hiaf-number-correction",
+      "change_kind": "数字修正",
+      "topic_id": "hiaf",
+      "status": "已生效",
+      "summary": "把旧稿单一束流强度数字修正为带模拟/设计条件的范围。",
+      "from_claim_version_id": "claim-hiaf-intensity-v1",
+      "to_claim_version_id": "claim-hiaf-intensity-v2",
+      "from_derivative_id": "deriv-hiaf-label-10-v1",
+      "to_derivative_id": "deriv-hiaf-label-10-v2",
+      "evidence_id": "ev-hiaf-2026-correction",
+      "review_id": "review-hiaf-v1-number"
+    },
+    {
+      "id": "event-hiaf-redaction",
+      "change_kind": "敏感细节删减",
+      "topic_id": "hiaf",
+      "status": "已生效",
+      "summary": "从公众安全资料中删除联锁阈值、路线和巡检时间。",
+      "to_claim_version_id": "claim-hiaf-safety-v1",
+      "to_derivative_id": "deriv-hiaf-safety-all-v1",
+      "evidence_id": "ev-hiaf-safety",
+      "removed_fields": ["联锁触发阈值", "设备间路线", "巡检时间"]
+    },
+    {
+      "id": "event-hiaf-safety-disagreement",
+      "change_kind": "专家分歧",
+      "topic_id": "hiaf",
+      "status": "开放",
+      "summary": "安全表达在避免提示攻击面与给儿童明确行为边界之间存在未解决分歧。",
+      "to_claim_version_id": "claim-hiaf-safety-v1",
+      "to_derivative_id": "deriv-hiaf-safety-all-v1",
+      "related_review_ids": ["review-hiaf-safety-detail", "review-hiaf-safety-education"]
+    },
+    {
+      "id": "event-fluid-research-update",
+      "change_kind": "研究更新",
+      "topic_id": "microgravity-fluid",
+      "status": "已生效",
+      "summary": "落塔后续数据补充接触角、通道形状和气泡滞留条件。",
+      "from_claim_version_id": "claim-fluid-capillary-v1",
+      "to_claim_version_id": "claim-fluid-capillary-v2",
+      "from_derivative_id": "deriv-fluid-label-10-v1",
+      "to_derivative_id": "deriv-fluid-label-10-v2",
+      "evidence_id": "ev-fluid-2026-update",
+      "review_id": "review-fluid-old-overreach"
+    },
+    {
+      "id": "event-fluid-visitor-misread",
+      "change_kind": "观众误解",
+      "topic_id": "microgravity-fluid",
+      "status": "已生效",
+      "summary": "观众把“自己向前走”理解成太空水管不需要任何动力；现场讲解增加条件说明。",
+      "to_claim_version_id": "claim-fluid-capillary-v2",
+      "to_derivative_id": "deriv-fluid-interact-6-v1",
+      "feedback_id": "feedback-fluid-001",
+      "review_id": "review-fluid-interact-ok"
+    }
+  ],
+  "venues": [
+    {
+      "id": "venue-hall-a",
+      "name": "虚构科技馆A厅",
+      "location": "一层前沿科学展区",
+      "audience_age_band": "10-14岁"
+    },
+    {
+      "id": "venue-family-lab",
+      "name": "虚构家庭实验室",
+      "location": "二层互动教室",
+      "audience_age_band": "6-9岁"
+    }
+  ],
+  "publications": [
+    {
+      "id": "pub-hiaf-label-printed-old",
+      "venue_id": "venue-hall-a",
+      "carrier_type": "纸质展签",
+      "status": "已印刷不可变",
+      "derivative_id": "deriv-hiaf-label-10-v1",
+      "placed_at": "2026-05-01",
+      "immutable": true,
+      "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "replacement_policy": "仅新印刷批次可替换"
+    },
+    {
+      "id": "pub-fluid-label-printed-old",
+      "venue_id": "venue-hall-a",
+      "carrier_type": "纸质展签",
+      "status": "已印刷不可变",
+      "derivative_id": "deriv-fluid-label-10-v1",
+      "placed_at": "2026-05-01",
+      "immutable": true,
+      "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "replacement_policy": "仅新印刷批次可替换"
+    },
+    {
+      "id": "pub-hiaf-screen-current",
+      "venue_id": "venue-family-lab",
+      "carrier_type": "互动屏",
+      "status": "当前",
+      "derivative_id": "deriv-hiaf-interact-6-v1",
+      "placed_at": "2026-08-18",
+      "immutable": false,
+      "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "replacement_policy": "数字渠道可版本化更新"
+    },
+    {
+      "id": "pub-fluid-screen-current",
+      "venue_id": "venue-family-lab",
+      "carrier_type": "互动屏",
+      "status": "当前",
+      "derivative_id": "deriv-fluid-interact-6-v1",
+      "placed_at": "2026-07-04",
+      "immutable": false,
+      "content_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "replacement_policy": "数字渠道可版本化更新"
+    },
+    {
+      "id": "pub-fluid-audio-current",
+      "venue_id": "venue-family-lab",
+      "carrier_type": "音频导览",
+      "status": "当前",
+      "derivative_id": "deriv-fluid-a11y-10-v1",
+      "placed_at": "2026-07-04",
+      "immutable": false,
+      "content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "replacement_policy": "数字渠道可版本化更新"
+    }
+  ],
+  "qr_codes": [
+    {
+      "id": "qr-hiaf-old-label",
+      "venue_id": "venue-hall-a",
+      "linked_publication_id": "pub-hiaf-label-printed-old",
+      "payload": "https://example.invalid/on-site/qr-hiaf-old-label",
+      "resolution_mode": "场地当前版本"
+    },
+    {
+      "id": "qr-fluid-old-label",
+      "venue_id": "venue-hall-a",
+      "linked_publication_id": "pub-fluid-label-printed-old",
+      "payload": "https://example.invalid/on-site/qr-fluid-old-label",
+      "resolution_mode": "场地当前版本"
+    }
+  ],
+  "notices": [
+    {
+      "id": "notice-hiaf-number",
+      "publication_id": "pub-hiaf-label-printed-old",
+      "severity": "数字更正",
+      "message": "你扫描的是已印刷旧展签。新版不再使用单一设计值，而使用带条件的束流能力范围；旧展签正文不被静默改写。",
+      "change_event_id": "event-hiaf-number-correction",
+      "current_derivative_id": "deriv-hiaf-label-10-v2",
+      "show_on_scan": true
+    },
+    {
+      "id": "notice-fluid-update",
+      "publication_id": "pub-fluid-label-printed-old",
+      "severity": "信息更新",
+      "message": "你扫描的是已印刷旧展签。研究更新后，新版补充了接触角、通道形状和气泡滞留等条件。",
+      "change_event_id": "event-fluid-research-update",
+      "current_derivative_id": "deriv-fluid-label-10-v2",
+      "show_on_scan": true
+    }
+  ],
+  "feedback": [
+    {
+      "id": "feedback-fluid-001",
+      "venue_id": "venue-family-lab",
+      "audience_age_band": "6-9岁",
+      "category": "误解",
+      "visitor_quote": "是不是在太空把水管放着，水就会自己一直跑？",
+      "target_derivative_id": "deriv-fluid-label-10-v1",
+      "target_expression": "水会靠着细小通道自己向前走",
+      "status": "已纳入",
+      "change_event_id": "event-fluid-visitor-misread",
+      "revised_derivative_id": "deriv-fluid-interact-6-v1",
+      "response_note": "互动脚本加入带气泡通道，并由讲解员强调条件合适才会移动。",
+      "received_at": "2026-07-08"
+    },
+    {
+      "id": "feedback-hiaf-001",
+      "venue_id": "venue-hall-a",
+      "audience_age_band": "10-14岁",
+      "category": "疑问",
+      "visitor_quote": "设计速度和真实测到的速度有什么不一样？",
+      "target_derivative_id": "deriv-hiaf-label-10-v2",
+      "target_expression": "这像设计速度，不等于每次实测都完全相同",
+      "status": "已解释",
+      "response_note": "讲解员扫码版增加一句：设计值是目标范围，实测会随运行条件记录。",
+      "received_at": "2026-09-01"
+    }
+  ]
 }
